@@ -22,21 +22,35 @@ public class ServerConnect {
 		    DataOutputStream dos = new DataOutputStream(out);
 		    InputStream in = socket.getInputStream();
 		    DataInputStream dis = new DataInputStream(in);
-	//		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));	
+	//		BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		    
+		    //Send msg over the Socket to the server
 			dos.write(msg.toByteArray());
 			
-			byte[] reader = new byte[msg.size + 16];
+			byte[] reader = new byte[262156];
 			
 			int numBytesRead = dis.read(reader);
+			byte[] dataReader = new byte[numBytesRead - 12];			
+			for(int i = 0; i < numBytesRead - 12; i++) {
+				dataReader[i] = reader[i];
+			}
+			
 			int responseType = ByteBuffer.wrap(reader).getInt(0);
 			int responseSubType = ByteBuffer.wrap(reader).getInt(4);
 			int responseSize = ByteBuffer.wrap(reader).getInt(8);
-			int responseData = ByteBuffer.wrap(reader).getInt(12);
+			
+			for(int i = 12; i < numBytesRead; i++) {
+				dataReader[i - 12] = reader[i];
+			}
+			
+			String serverResponseData = new String(dataReader);
+			
+//			int responseData = ByteBuffer.wrap(reader).getInt(12);
 			
 			System.out.println("response from server (Type): " + responseType);
 			System.out.println("response from server (Sub-Type): " + responseSubType);
 			System.out.println("response from server (Size): " + responseSize);
-			System.out.println("response from server (part of Data): " + responseData);
+			System.out.println("response from server (Data): " + serverResponseData);
 			System.out.println("Number of bytes read:" + numBytesRead);	
 			
 			dis.close();

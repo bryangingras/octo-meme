@@ -21,7 +21,7 @@ public class Message {
 	}
 	
 	public byte[] toByteArray() {
-		byte[] byteArray = new byte[4*3 + 4 * this.size + 1];
+		byte[] byteArray = new byte[4*3 + 4 * this.size +1];
 		
 		System.out.println("Size of byte array: "+byteArray.length);
 		
