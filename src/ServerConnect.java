@@ -39,8 +39,10 @@ public class ServerConnect {
 	public void sendOverSocket(Message msg) {
 		try {
 		    //Send msg over the Socket to the server
-			this.out.write(msg.toByteArray());
-			this.out.flush();
+			synchronized(this) {
+				this.out.write(msg.toByteArray());
+				this.out.flush();
+			}
 //			this.dos.write(msg.toByteArray());
 //			this.dos.flush();
 		}
@@ -70,8 +72,8 @@ public class ServerConnect {
 			int size = ByteBuffer.wrap(sizeInBytes).getInt();
 			byte[] data = new byte[size];
 			in.read(data, 0, size);
+			System.out.println("Response sub-type: " + ByteBuffer.wrap(header2).getInt(0));
 			
-//			
 //			byte[] reader = new byte[262156];
 //
 //			int numBytesRead = this.dis.read(reader);
@@ -102,7 +104,6 @@ public class ServerConnect {
 			System.out.println("response from server (Data): "
 					+ serverResponseData);
 			// System.out.println("Number of bytes read:" + numBytesRead);
-
 		} catch (UnknownHostException e) {
 			System.out.println("Unknown host: dsp2014.ece.mcgill.ca");
 			System.exit(1);

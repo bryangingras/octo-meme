@@ -10,6 +10,10 @@ public class Tester {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
+		Reader reader = new Reader(con);
+		
+		reader.start();
+		
 		String data = null;
 		String msgValue = null;
 		int msgValueInt = 0;
@@ -69,7 +73,16 @@ public class Tester {
 			Message msg = new Message(msgValueInt, 0, data);
 			
 			con.sendOverSocket(msg);
-			con.receiveOverSocket();
+			
+			System.out.println("LOOP");
+			
+			if(msgValueInt == 0) {
+				System.out.println("Exiting now");
+				System.exit(1);
+			}
+			
+//			con.receiveOverSocket();
+			
 		}
 //		System.out.println("Success");
 	}
