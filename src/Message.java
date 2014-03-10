@@ -7,23 +7,25 @@ public class Message {
 	int size;
 	byte[] msgData;
 	
-	public Message(int msgType, int subMsgType, int size, String data) {
+	public Message(int msgType, int subMsgType, String data) {
 		this.msgType = msgType;
 		this.subMsgType = subMsgType;
-		this.size = size;
-		if(size >= 0 && size <= 262144) {
-			this.msgData = data.getBytes();
-		}
-		else {
-			System.out.println("Illegal error size of" + size);
-			System.exit(1);
-		}
+		this.msgData = data.getBytes();
+		this.size = msgData.length;
+//		this.size = size;
+//		if(size >= 0 && size <= 262144) {
+//			this.msgData = data.getBytes();
+//		}
+//		else {
+//			System.out.println("Illegal error size of" + size);
+//			System.exit(1);
+//		}
 	}
 	
 	public byte[] toByteArray() {
-		byte[] byteArray = new byte[4*3 + 4 * this.size +1];
+		byte[] byteArray = new byte[4*3 + this.size];
 		
-		System.out.println("Size of byte array: "+byteArray.length);
+		System.out.println("Size of byte array: " + byteArray.length);
 		
 		byte[] typeInBytes = ByteBuffer.allocate(4).putInt(this.msgType).array();
 		byte[] subTypeInBytes = ByteBuffer.allocate(4).putInt(this.subMsgType).array();
