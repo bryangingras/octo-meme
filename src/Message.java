@@ -25,7 +25,7 @@ public class Message {
 	public byte[] toByteArray() {
 		byte[] byteArray = new byte[4*3 + this.size];
 		
-		System.out.println("Size of byte array: " + byteArray.length);
+		//System.out.println("Size of byte array: " + byteArray.length);
 		
 		byte[] typeInBytes = ByteBuffer.allocate(4).putInt(this.msgType).array();
 		byte[] subTypeInBytes = ByteBuffer.allocate(4).putInt(this.subMsgType).array();
